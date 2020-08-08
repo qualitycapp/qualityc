@@ -6,38 +6,34 @@ const { Octokit } = require("@octokit/rest");
 
 const octokit = new Octokit({
     auth: cookie.get('oauth-token')
-  });
+});
 
 var User = {
-    list: [],
-    loadList: function() {
-        return octokit.repos.listForAuthenticatedUser()
-        .then(function( {data} ) {
-            User.list = data
-            m.redraw()
-          })
+    getLogin: function () {
+        return cookie.get('login')
     },
+    login: function () {
+        var query = m.parseQueryString(window.location.search)
 
-    current: {},
-    load: function(id) {
+        if (!query.code) return
+
         return m.request({
             method: "GET",
-            url: "https://rem-rest-api.herokuapp.com/api/users/" + id,
-            withCredentials: true,
+            url: "https://gatokeepero.herokuapp.com/authenticate/" + query.code
         })
-        .then(function(result) {
-            User.current = result
-        })
+            .then(function (data) {
+                cookie.set('oauth-token', data.token);
+            }).then(function () {
+                const octokit = new Octokit({
+                    auth: cookie.get('oauth-token')
+                });
+                return octokit.users.getAuthenticated();
+            }).then(function ({ data }) {
+                cookie.set('login', data.login)
+            }).then(function () {
+                window.location.replace("/");
+            })
     },
-
-    save: function() {
-        return m.request({
-            method: "PUT",
-            url: "https://rem-rest-api.herokuapp.com/api/users/" + User.current.id,
-            body: User.current,
-            withCredentials: true,
-        })
-    }
 }
 
 module.exports = User
