@@ -15,6 +15,15 @@ var User = {
     isAuthenticated: function () {
         return (cookie.get('oauth-token'))
     },
+    isConsentGiven: function() {
+        return cookie.get('consent') === "yes"
+    },
+    giveConsent: function(){
+        cookie.set('consent', "yes", 365)
+    },
+    withdrawConsent: function(){
+        cookie.unset('consent')
+    },
     login: function () {
         var query = m.parseQueryString(window.location.search)
 
@@ -39,6 +48,7 @@ var User = {
     },
     logout: function (){
         cookie.unset('oauth-token')
+        cookie.unset('login')
         return m.redraw()
     }
 }

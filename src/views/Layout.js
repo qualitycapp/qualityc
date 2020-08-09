@@ -1,7 +1,7 @@
 // src/views/Layout.js
 var m = require("mithril")
 var User = require("../models/User")
-var Login = require("./Login")
+var Login = require("./partials/Login")
 
 module.exports = {
     oninit: User.login,

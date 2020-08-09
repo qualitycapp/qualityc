@@ -17,7 +17,7 @@ function tryParse(obj) {
     var pair = escape(name) + '=' + escape(tryStringify(value));
   
     if (!!expires) {
-      if (expires.constructor === Number) pair += ';max-age=' + expires;
+      if (expires.constructor === Number) pair += ';max-age=' + (expires * 24 * 60 * 60);
       else if (expires.constructor === String) pair += ';expires=' + expires;
       else if (expires.constructor === Date)  pair += ';expires=' + expires.toUTCString();
     }
