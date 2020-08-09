@@ -4,9 +4,11 @@ var m = require("mithril")
 var RepoList = require("./views/RepoList")
 var RepoDetail = require("./views/RepoDetail")
 var Layout = require("./views/Layout")
+var About = require("./views/About")
+var Privacy = require("./views/Privacy")
 
-m.route(document.body, "/list", {
-    "/list": {
+m.route(document.body, "/", {
+    "/": {
         render: function () {
             return m(Layout, m(RepoList))
         }
@@ -16,4 +18,14 @@ m.route(document.body, "/list", {
             return m(Layout, m(RepoDetail, vnode.attrs))
         }
     },
+    "/about": {
+        render: function () {
+            return m(Layout, {isPublic: true} , m(About))
+        }
+    },
+    "/privacy": {
+        render: function () {
+            return m(Layout, {isPublic: true} , m(Privacy))
+        }
+    }
 })

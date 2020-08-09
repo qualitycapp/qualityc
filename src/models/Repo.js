@@ -1,17 +1,15 @@
-// src/models/User.js
+// src/models/Repo.js
 var m = require("mithril")
-var cookie = require('../cookie')
+var User = require("./User")
 
 const { Octokit } = require("@octokit/rest");
-
-const octokit = new Octokit({
-    auth: cookie.get('oauth-token')
-});
 
 var Repo = {
     query: "",
     list: [],
     loadList: function () {
+        const octokit = new Octokit({ auth: User.getToken() });
+
         return octokit.repos.listForAuthenticatedUser({ sort: "updated" })
             .then(function ({ data }) {
                 Repo.list = data
@@ -19,7 +17,9 @@ var Repo = {
             })
     },
     search: function () {
-        return octokit.search.repos({ q: Repo.query + "+user:" + cookie.get("login"), sort: "updated" })
+        const octokit = new Octokit({ auth: User.getToken() });
+
+        return octokit.search.repos({ q: Repo.query + "+user:" + User.getLogin(), sort: "updated" })
             .then(function ({ data }) {
                 Repo.list = data.items
                 m.redraw()
