@@ -18,6 +18,12 @@ m.route(document.body, "/", {
             return m(Layout, m(RepoDetail, vnode.attrs))
         }
     },
+    "/repo/:owner/:name/:path...": {
+        render: function (vnode) {
+            vnode.attrs.key = m.route.param("path")
+            return m(Layout, m(RepoDetail, vnode.attrs))
+        }
+    },
     "/about": {
         render: function () {
             return m(Layout, {isPublic: true} , m(About))

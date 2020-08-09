@@ -27,14 +27,17 @@ var Repo = {
     },
 
     current: {},
-    load: function (id) {
-        return m.request({
-            method: "GET",
-            url: "https://rem-rest-api.herokuapp.com/api/users/" + id,
-            withCredentials: true,
-        })
-            .then(function (result) {
-                Repo.current = result
+    contents: [],
+    load: function (owner, repo, path) {
+        const octokit = new Octokit({ auth: User.getToken() });
+
+        Repo.current = { owner, repo, path };
+
+        return octokit.repos.getContent({ owner, repo, path })
+            .then(function ({ data }) {
+                
+                Repo.contents = data
+                m.redraw()
             })
     },
 

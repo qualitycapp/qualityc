@@ -17,7 +17,7 @@ module.exports = {
                         )
                     ),
                     m("input", {
-                        "class": "form-control", "type": "text", "id": "txtSearch", "placeholder": "Filter projects", "aria-label": "Filter projects", "aria-describedby": "icoSearch",
+                        "class": "form-control", "type": "text", "placeholder": "Filter projects", "aria-label": "Filter projects", "aria-describedby": "icoSearch",
 
                         oninput: function (e) { Repo.query = e.target.value; Repo.search() },
                         value: Repo.query
