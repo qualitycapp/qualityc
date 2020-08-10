@@ -41,13 +41,20 @@ var Repo = {
             })
     },
 
-    save: function () {
-        return m.request({
-            method: "PUT",
-            url: "https://rem-rest-api.herokuapp.com/api/users/" + User.current.id,
-            body: User.current,
-            withCredentials: true,
-        })
+    searchContent: function () {
+        if (!Repo.current.searchTerm) return Repo.load(Repo.current.owner, Repo.current.repo, Repo.current.path)
+        const octokit = new Octokit({ auth: User.getToken() });
+
+        return octokit.search.code({ q: Repo.current.searchTerm + "+repo:" + Repo.current.owner + "/" + Repo.current.repo, sort: "updated" })
+            .then(function ({ data }) {
+                Repo.contents = data.items
+                Repo.contents.forEach(content => { content['type'] = "file" })
+                m.redraw()
+            })
+    },
+    clearSearchTerm: function () {
+        Repo.current.searchTerm = ""
+        return Repo.load(Repo.current.owner, Repo.current.repo, Repo.current.path)
     }
 }
 

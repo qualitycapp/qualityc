@@ -8,18 +8,33 @@ module.exports = {
         return [
             m("h3", Repo.current.owner),
             m("h2", Repo.current.repo),
-            m("form", { "method": "get" },
-                m("div", { "class": "input-group mb-3" },
-                    [
-                        m("input", { "class": "form-control", "type": "text", "name": "term", "placeholder": "Search files", "aria-label": "Search files", "aria-describedby": "icoSearch" }),
-                        m("div", { "class": "input-group-append" },
+            m("div", { "class": "input-group mb-3" },
+                [
+                    m("input", {
+                        "class": "form-control", "type": "text", "name": "term", "placeholder": "Search files", "aria-label": "Search files", "aria-describedby": "icoSearch",
+                        oninput: function (e) { 
+                            Repo.current.searchTerm = e.target.value
+                            Repo.searchContent()
+                        },
+                        value: Repo.current.searchTerm
+                    }),
+                    m("div", { "class": "input-group-append" },
+                        [
+                            Repo.current.searchTerm ?
+                                m("a.btn.btn-outline-secondary", {
+                                    title: "Reset", onclick: function (e) {
+                                        e.preventDefault()
+                                        Repo.clearSearchTerm()
+                                    }
+                                }, m("img", { "src": "/svg/feather/delete.svg", "height": "20" })) : "",
                             m("button", { "class": "btn btn-outline-secondary", "type": "submit", "id": "icoSearch", "title": "Search files" },
                                 m("img", { "src": "/svg/feather/search.svg", "height": "20" })
                             )
-                        )
-                    ]
-                )
-            ),
+                        ]
+                    )
+                ]
+            )
+            ,
             m("div", { "class": "list-group list-group-flush" },
                 [
                     m(m.route.Link, {
@@ -37,11 +52,12 @@ module.exports = {
                             ]
                         )
                     ),
-                    Repo.contents.sort(function(a, b) {
+                    Repo.contents.sort(function (a, b) {
                         return a.type.localeCompare(b.type)
                     }).map(function (content) {
                         return m(m.route.Link, {
-                            "class": "list-group-item list-group-item-action d-flex justify-content-between align-items-center", "href": "/repo/" + Repo.current.owner + "/" + Repo.current.repo + "/" + content.path
+                            "class": "list-group-item list-group-item-action d-flex justify-content-between align-items-center", 
+                            href: (content.type == "file" ? "/edit/":"/repo/") + Repo.current.owner + "/" + Repo.current.repo + "/" + content.path
                         },
                             [
                                 m("span", { "class": "liFile" },
