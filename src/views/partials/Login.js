@@ -6,24 +6,6 @@ var User = require("../../models/User")
 module.exports = {
     view: function () {
         return [
-            User.isConsentGiven() ? "" : m("div", { "class": "alert alert-info alert-dismissible fade show", "id": "cookieConsent", "role": "alert" },
-                [
-                    " We use cookies to remember it is you and log your behaviour on our site to analyze and improve our service. ",
-                    m(m.route.Link, { "href": "/privacy" },
-                        "Learn More"
-                    ),
-                    m("button", {
-                        "class": "accept-policy close", "type": "button", "data-dismiss": "alert", "aria-label": "Close",
-                        onclick: function () {
-                            User.giveConsent()
-                        }
-                    },
-                        m("span", { "aria-hidden": "true" },
-                            "Accept"
-                        )
-                    )
-                ]
-            ),
             m("div", { "class": "row justify-content-center" },
                 m("div", { "class": "col-xl-4 col-lg-5 col-md-6 col-8" },
                     m("div", { "class": "shadow-sm jumbotron text-center" },

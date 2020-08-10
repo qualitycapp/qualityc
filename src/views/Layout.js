@@ -54,9 +54,25 @@ module.exports = {
                 )
             )
         ),
-        m("div", { "class": "container" },
+        m("div.container", [
+            User.isConsentGiven() ? "" : m("div", { "class": "alert alert-info alert-dismissible fade show", "role": "alert" },
+                [
+                    " We use cookies to remember it is you and log your behaviour on our site to analyze and improve our service. ",
+                    m(m.route.Link, { "href": "/privacy" }, "Learn More"),
+                    m("button", {
+                        "class": "accept-policy close", "type": "button", "data-dismiss": "alert", "aria-label": "Close",
+                        onclick: function () {
+                            User.giveConsent()
+                        }
+                    },
+                        m("span", { "aria-hidden": "true" },
+                            "Accept"
+                        )
+                    )
+                ]
+            ),
             m("main", { "class": "pb-3", "role": "main" }, (vnode.attrs.isPublic || User.isAuthenticated()) ? m("section", vnode.children) : m(Login))
-        ),
+        ]),
         m("footer", { "class": "border-top footer text-muted" },
             m("div", { "class": "container" },
                 [
