@@ -25,13 +25,13 @@ var User = {
         cookie.unset('consent')
     },
     login: function () {
-        var code = m.route.param("code")
+        var query = m.parseQueryString(window.location.search)
 
-        if (!code) return
+        if (!query.code) return
 
         return m.request({
             method: "GET",
-            url: config.authenticationServer + "/authenticate/" + code
+            url: config.authenticationServer + "/authenticate/" + query.code
         })
             .then(function (data) {
                 cookie.set('oauth-token', data.token);
