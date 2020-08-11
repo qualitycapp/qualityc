@@ -4,10 +4,7 @@ var User = require("../models/User")
 
 module.exports = {
   view: function () {
-    return [
-      m("h1",
-        "Privacy"
-      ),
+    return m("header", [
       m("p",
         "Use this page to detail your site's privacy policy."
       ),
@@ -20,5 +17,6 @@ module.exports = {
         "Revoke Cookie Consent"
       ) : ""
     ]
+    )
   }
 }

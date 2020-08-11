@@ -3,10 +3,7 @@ var m = require("mithril")
 
 module.exports = {
     view: function () {
-        return [
-            m("h1", 
-              "About"
-            ), 
+        return [ 
             m("p", 
               "Use this page to give detail about your site."
             )

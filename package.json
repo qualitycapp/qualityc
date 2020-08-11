@@ -1,7 +1,7 @@
 {
   "name": "qualityc-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Qualityc.app is a test editor for GitHub, designed for software testing.",
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm:watch\" \"npm:serve\"",
@@ -20,7 +20,6 @@
   "devDependencies": {
     "concurrently": "^5.3.0",
     "http-server": "^0.12.3",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^4.44.1"
   }
 }

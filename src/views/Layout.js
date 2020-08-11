@@ -6,89 +6,79 @@ var Login = require("./partials/Login")
 module.exports = {
     oninit: User.login,
     view: function (vnode) {
-        return [m("header",
-            m("nav", { "class": "navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3" },
-                m("div", { "class": "container" },
+        document.title = (vnode.attrs.title ?  vnode.attrs.title + " - " : "") + "qualityc.app"
+        return [
+            User.isConsentGiven() ? "" : m("article",
+                m("aside",
+                    m("p",
+                        " We use cookies to remember it is you and log your behaviour on our site to analyze and improve our service. ",
+                        m(m.route.Link, { "href": "/privacy" }, "Learn More"),
+                        m("a", {
+                            style: "float:right;", href: "",
+                            onclick: function (e) {
+                                e.preventDefault()
+                                User.giveConsent()
+                            }
+                        },
+                            m("span", { "aria-hidden": "true" },
+                                "Accept"
+                            )
+                        )
+                    )
+                )
+            ),
+            m("header",
+                m("nav",
                     [
-                        m(m.route.Link, { "class": "navbar-brand", "href": "/" },
-                            "qualityc.app"
-                        ),
-                        m("button", { "class": "navbar-toggler", "type": "button", "data-toggle": "collapse", "data-target": ".navbar-collapse", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
-                            m("span", { "class": "navbar-toggler-icon" })
-                        ),
-                        m("div", { "class": "navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" },
-                            m("ul", { "class": "navbar-nav" },
-                                User.isAuthenticated() ? [
-                                    m("li", { "class": "nav-item dropdown" },
-                                        [
-                                            m("a", { "class": "nav-link dropdown-toggle", "href": "#", "id": "navbarDropdown", "role": "button", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" },
-                                                m("img", { "class": "rounded-circle", "src": "https://github.com/" + User.getLogin() + ".png?size=30", "width": "30", "height": "30", "alt": "", "loading": "lazy" })
-                                            ),
-                                            m("div", { "class": "dropdown-menu", "aria-labelledby": "navbarDropdown" },
+                        m(m.route.Link, { "href": "/" }, m("img", { "src": "/img/logo.png", "alt": "qualityc.app" })),
+                        m("ul",
+                            User.isAuthenticated() ? [
+                                m("li",
+                                    [
+                                        m("a", { "href": "#" },
+                                            m("img", { "src": "https://github.com/" + User.getLogin() + ".png?size=30", "width": "30", "height": "30", "alt": "User" })
+                                        ),
+                                        m("ul",
+                                            [m("li",
                                                 m("a", {
-                                                    "class": "dropdown-item", href: "", onclick: function (e) {
+                                                    href: "", onclick: function (e) {
                                                         e.preventDefault()
                                                         User.logout()
                                                     }
                                                 },
                                                     "Sign out"
-                                                )
-                                            )
-                                        ]
-                                    )
-                                ] : [
-                                        m("li", { "class": "nav-item" },
-                                            m(m.route.Link, { "class": "nav-link text-light", "href": "/about" },
-                                                "About"
-                                            )
-                                        ),
-                                        m("li", { "class": "nav-item" },
-                                            m(m.route.Link, { "class": "nav-link text-light", "href": "/" },
-                                                "Sign in"
-                                            )
+                                                ))
+                                            ]
                                         )
                                     ]
-                            )
+                                )
+                            ] : [
+                                    m("li", m(m.route.Link, { "href": "/about" }, "About")),
+                                    m("li", m(m.route.Link, { "href": "/" }, "Sign in"))
+                                ]
                         )
                     ]
-                )
-            )
-        ),
-        m("div.container", [
-            User.isConsentGiven() ? "" : m("div", { "class": "alert alert-info alert-dismissible fade show", "role": "alert" },
-                [
-                    " We use cookies to remember it is you and log your behaviour on our site to analyze and improve our service. ",
-                    m(m.route.Link, { "href": "/privacy" }, "Learn More"),
-                    m("button", {
-                        "class": "accept-policy close", "type": "button", "data-dismiss": "alert", "aria-label": "Close",
-                        onclick: function () {
-                            User.giveConsent()
-                        }
-                    },
-                        m("span", { "aria-hidden": "true" },
-                            "Accept"
-                        )
-                    )
-                ]
+                ),
+                vnode.attrs.title ? m("h1", vnode.attrs.title) : ""
+            ), //header
+            m("main",
+                (vnode.attrs.isPublic || User.isAuthenticated()) ? m("section", vnode.children) : m(Login)
             ),
-            m("main", { "class": "pb-3", "role": "main" }, (vnode.attrs.isPublic || User.isAuthenticated()) ? m("section", vnode.children) : m(Login))
-        ]),
-        m("footer", { "class": "border-top footer text-muted" },
-            m("div", { "class": "container" },
-                [
-                    " ",
-                    m.trust("&copy;"),
-                    " 2020 - qualityc.app - Made by ",
-                    m("a", { "href": "https://olcay.dev" },
-                        "olcay.dev"
-                    ),
-                    " - ",
-                    m(m.route.Link, { "href": "/privacy" },
-                        "Privacy"
+            m("footer", [
+                m("hr"),
+                m("p",
+                    m("small",
+                        [
+                            m.trust("&copy;"),
+                            " 2020 - qualityc.app - Made by ",
+                            m("a", { "href": "https://olcay.dev" }, "olcay.dev"),
+                            " - ",
+                            m(m.route.Link, { "href": "/privacy" }, "Privacy")
+                        ]
                     )
-                ]
+                )
+            ]
             )
-        )
         ]
     }
 }
