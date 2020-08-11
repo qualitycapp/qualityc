@@ -6,6 +6,7 @@ var RepoDetail = require("./views/RepoDetail")
 var Layout = require("./views/Layout")
 var About = require("./views/About")
 var Privacy = require("./views/Privacy")
+var Editor = require("./views/Editor")
 
 m.route(document.body, "/", {
     "/": {
@@ -22,6 +23,11 @@ m.route(document.body, "/", {
         render: function (vnode) {
             vnode.attrs.key = vnode.attrs.path
             return m(Layout, { title: vnode.attrs.name, header: vnode.attrs.owner + "/" + vnode.attrs.name + "/" + vnode.attrs.path } , m(RepoDetail, vnode.attrs))
+        }
+    },
+    "/edit/:owner/:name/:path...": {
+        render: function (vnode) {
+            return m(Layout, { title: vnode.attrs.name, header: vnode.attrs.owner + "/" + vnode.attrs.name + "/" + vnode.attrs.path } , m(Editor, vnode.attrs))
         }
     },
     "/about": {

@@ -1,4 +1,4 @@
-// src/views/UserList.js
+// src/views/RepoList.js
 var m = require("mithril")
 var Repo = require("../models/Repo")
 

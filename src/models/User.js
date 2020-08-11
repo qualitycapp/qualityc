@@ -1,28 +1,27 @@
 // src/models/User.js
 var m = require("mithril")
-var cookie = require('../cookie')
 var config = require("../../config")
 
 const { Octokit } = require("@octokit/rest");
 
 var User = {
     getLogin: function () {
-        return cookie.get('login')
+        return localStorage.getItem('login')
     },
     getToken: function () {
-        return cookie.get('oauth-token')
+        return localStorage.getItem('oauth-token')
     },
     isAuthenticated: function () {
-        return (cookie.get('oauth-token'))
+        return (localStorage.getItem('oauth-token'))
     },
     isConsentGiven: function() {
-        return cookie.get('consent') === "yes"
+        return localStorage.getItem('consent') === "yes"
     },
     giveConsent: function(){
-        cookie.set('consent', "yes", 365)
+        localStorage.setItem('consent', "yes")
     },
     withdrawConsent: function(){
-        cookie.unset('consent')
+        localStorage.removeItem('consent')
     },
     login: function () {
         var query = m.parseQueryString(window.location.search)
@@ -34,21 +33,21 @@ var User = {
             url: config.authenticationServer + "/authenticate/" + query.code
         })
             .then(function (data) {
-                cookie.set('oauth-token', data.token);
+                localStorage.setItem('oauth-token', data.token);
             }).then(function () {
                 const octokit = new Octokit({
-                    auth: cookie.get('oauth-token')
+                    auth: localStorage.getItem('oauth-token')
                 });
                 return octokit.users.getAuthenticated();
             }).then(function ({ data }) {
-                cookie.set('login', data.login)
+                localStorage.setItem('login', data.login)
             }).then(function () {
                 window.history.replaceState({}, document.title, "/");
             })
     },
     logout: function (){
-        cookie.unset('oauth-token')
-        cookie.unset('login')
+        localStorage.removeItem('oauth-token')
+        localStorage.removeItem('login')
         return m.redraw()
     }
 }

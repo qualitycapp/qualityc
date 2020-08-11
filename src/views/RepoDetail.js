@@ -1,4 +1,4 @@
-// src/views/UserForm.js
+// src/views/RepoDetail.js
 var m = require("mithril")
 var Repo = require("../models/Repo")
 
@@ -49,10 +49,7 @@ module.exports = {
                     }
                     ) : m("div", { "class": "lds-ellipsis" },
                         [
-                            m("div"),
-                            m("div"),
-                            m("div"),
-                            m("div")
+                            m("div"), m("div"), m("div"), m("div")
                         ]
                     )
                 ]
