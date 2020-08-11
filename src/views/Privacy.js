@@ -14,7 +14,7 @@ module.exports = {
           User.withdrawConsent()
         }
       },
-        "Revoke Cookie Consent"
+        m("i","Revoke Cookie Consent")
       ) : ""
     ]
     )

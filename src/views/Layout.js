@@ -6,7 +6,7 @@ var Login = require("./partials/Login")
 module.exports = {
     oninit: User.login,
     view: function (vnode) {
-        document.title = (vnode.attrs.title ?  vnode.attrs.title + " - " : "") + "qualityc.app"
+        document.title = (vnode.attrs.title ? vnode.attrs.title + " - " : "") + "qualityc.app"
         return [
             User.isConsentGiven() ? "" : m("article",
                 m("aside",
@@ -31,13 +31,13 @@ module.exports = {
                 m("nav",
                     [
                         m(m.route.Link, { "href": "/" }, m("img", { "src": "/img/logo.png", "alt": "qualityc.app" })),
+                        vnode.attrs.title ? m("h1", vnode.attrs.title) : "",
                         m("ul",
                             User.isAuthenticated() ? [
                                 m("li",
                                     [
-                                        m("a", { "href": "#" },
-                                            m("img", { "src": "https://github.com/" + User.getLogin() + ".png?size=30", "width": "30", "height": "30", "alt": "User" })
-                                        ),
+
+                                        m("a", { "href": "#" }, User.getLogin()),
                                         m("ul",
                                             [m("li",
                                                 m("a", {
@@ -53,16 +53,16 @@ module.exports = {
                                     ]
                                 )
                             ] : [
-                                    m("li", m(m.route.Link, { "href": "/about" }, "About")),
+                                    m(m.route.Link, { "href": "/about" }, "About"),
                                     m("li", m(m.route.Link, { "href": "/" }, "Sign in"))
                                 ]
                         )
                     ]
                 ),
-                vnode.attrs.title ? m("h1", vnode.attrs.title) : ""
+                vnode.attrs.header ? m("h1", vnode.attrs.header) : "",
             ), //header
             m("main",
-                (vnode.attrs.isPublic || User.isAuthenticated()) ? m("section", vnode.children) : m(Login)
+                (vnode.attrs.isPublic || User.isAuthenticated()) ? vnode.children : m(Login)
             ),
             m("footer", [
                 m("hr"),
@@ -70,10 +70,16 @@ module.exports = {
                     m("small",
                         [
                             m.trust("&copy;"),
-                            " 2020 - qualityc.app - Made by ",
+                            " 2020",
+                            m.trust(" &middot; "),
+                            m("a", { "href": "/?source=footer" }, "qualityc.app"),
+                            m.trust(" &middot; "),
+                            "Made by ",
                             m("a", { "href": "https://olcay.dev" }, "olcay.dev"),
-                            " - ",
-                            m(m.route.Link, { "href": "/privacy" }, "Privacy")
+                            m.trust(" &middot; "),
+                            m(m.route.Link, { "href": "/privacy" }, "Privacy"),
+                            m.trust(" &middot; "),
+                            m(m.route.Link, { "href": "/about" }, "About")
                         ]
                     )
                 )

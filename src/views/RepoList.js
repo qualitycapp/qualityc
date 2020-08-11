@@ -6,42 +6,32 @@ module.exports = {
     oninit: Repo.loadList,
     view: function () {
         return [
-            m("h2",
-                "Explore Projects"
-            ),
-            m("div", { "class": "input-group mb-5" },
+            m("section",
                 [
-                    m("div", { "class": "input-group-prepend" },
-                        m("span", { "class": "input-group-text", "id": "icoSearch" },
-                            m("img", { "src": "/svg/feather/search.svg" })
-                        )
-                    ),
                     m("input", {
-                        "class": "form-control", "type": "text", "placeholder": "Filter projects", "aria-label": "Filter projects", "aria-describedby": "icoSearch",
-
+                        "type": "text", "placeholder": "Filter repositories", "aria-label": "Filter repositories",
                         oninput: function (e) { Repo.query = e.target.value; Repo.search() },
                         value: Repo.query
-                    })
+                    }),
+                    m("img", { src: "/svg/feather/search.svg", style: "margin-left: 10px;margin-top: -15px;" })
                 ]
             ),
-            m("div", { "class": "list-group list-group-flush" },
+            m("section",
                 Repo.list.map(function (repo) {
-                    return m(m.route.Link, { "class": "list-group-item list-group-item-action d-flex justify-content-between align-items-center", "href": "/repo/" + repo.full_name },
+                    return m("aside",
                         [
-                            m("span", { "class": "liProject" },
-                                [
-                                    m("img", { "class": "pb-1", "src": repo.private ? "/svg/feather/folder-minus.svg" : "/svg/feather/folder.svg", "title": repo.private ? "Private" : "Public" }),
-                                    " " + repo.name + " "
-                                ]
-                            ),
-                            m("span", { "class": "btn btn-outline-secondary" },
-                                "Open Project"
-                            )
+                            m("h3", [
+                                m("img", { src: "/svg/feather/folder" + (repo.private ? "-minus" : "") + ".svg", title: (repo.private ? "Private" : "Public"), style: { float: "left", "margin-right": "10px" } }),
+                                m(m.route.Link, { href: "/repo/" + repo.full_name }, repo.name)]),
+                            m("p", repo.description),
+                            m("p", m("small", repo.updated_at))
                         ]
                     )
                 }
                 )
+
             )
+
         ]
     }
 }

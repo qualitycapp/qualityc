@@ -10,18 +10,18 @@ var Privacy = require("./views/Privacy")
 m.route(document.body, "/", {
     "/": {
         render: function () {
-            return m(Layout, m(RepoList))
+            return m(Layout, { header: "Repositories" }, m(RepoList))
         }
     },
     "/repo/:owner/:name": {
         render: function (vnode) {
-            return m(Layout, m(RepoDetail, vnode.attrs))
+            return m(Layout, { title: vnode.attrs.name, header: vnode.attrs.owner + "/" + vnode.attrs.name }, m(RepoDetail, vnode.attrs))
         }
     },
     "/repo/:owner/:name/:path...": {
         render: function (vnode) {
-            vnode.attrs.key = m.route.param("path")
-            return m(Layout, m(RepoDetail, vnode.attrs))
+            vnode.attrs.key = vnode.attrs.path
+            return m(Layout, { title: vnode.attrs.name, header: vnode.attrs.owner + "/" + vnode.attrs.name + "/" + vnode.attrs.path } , m(RepoDetail, vnode.attrs))
         }
     },
     "/about": {
