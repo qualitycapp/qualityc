@@ -29,10 +29,11 @@ var Repo = {
     current: {},
     contents: [],
     load: function (owner, repo, path) {
-        const octokit = new Octokit({ auth: User.getToken() });
+        const octokit = new Octokit({ auth: User.getToken() })
 
-        Repo.current = { owner, repo, path };
-
+        Repo.current = { owner, repo, path }
+        Repo.contents = []
+        
         return octokit.repos.getContent({ owner, repo, path })
             .then(function ({ data }) {
                 
@@ -45,6 +46,8 @@ var Repo = {
         if (!Repo.current.searchTerm) return Repo.load(Repo.current.owner, Repo.current.repo, Repo.current.path)
         const octokit = new Octokit({ auth: User.getToken() });
 
+        Repo.contents = []
+        
         return octokit.search.code({ q: Repo.current.searchTerm + "+repo:" + Repo.current.owner + "/" + Repo.current.repo, sort: "updated" })
             .then(function ({ data }) {
                 Repo.contents = data.items

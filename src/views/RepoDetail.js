@@ -18,8 +18,8 @@ module.exports = {
                     }),
                     m("img", { src: "/svg/feather/search.svg", style: "margin-left: 10px;margin-top: -15px;" })
                 ]
-            )
-            ,
+            ),
+
             m("ul", { style: { "list-style-type": "none" } },
                 [
                     m("li", m(m.route.Link, {
@@ -30,7 +30,7 @@ module.exports = {
                     },
                         m("span", { "title": "Go to parent" }, m.trust(".&#8202;."))
                     )),
-                    Repo.contents.sort(function (a, b) {
+                    Repo.contents.length > 0 ? Repo.contents.sort(function (a, b) {
                         return a.type.localeCompare(b.type)
                     }).map(function (content) {
                         return m("li", m(m.route.Link, {
@@ -47,6 +47,13 @@ module.exports = {
                         )
                         )
                     }
+                    ) : m("div", { "class": "lds-ellipsis" },
+                        [
+                            m("div"),
+                            m("div"),
+                            m("div"),
+                            m("div")
+                        ]
                     )
                 ]
             )
