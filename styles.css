@@ -67,3 +67,10 @@
   }
 }
 /* loader end */
+
+
+@media (prefers-color-scheme: dark) {
+  img[src$=".svg"] {
+    filter: invert(1);
+  }
+}

@@ -12,7 +12,7 @@ var User = {
         return localStorage.getItem('oauth-token')
     },
     isAuthenticated: function () {
-        return (localStorage.getItem('oauth-token'))
+        return Boolean(localStorage.getItem('oauth-token'))
     },
     isConsentGiven: function() {
         return localStorage.getItem('consent') === "yes"

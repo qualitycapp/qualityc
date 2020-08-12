@@ -32,12 +32,12 @@ m.route(document.body, "/", {
     },
     "/about": {
         render: function () {
-            return m(Layout, {isPublic: true, title: "About"} , m(About))
+            return m(Layout, {isPublic: true, title: "About", header: "About"} , m(About))
         }
     },
     "/privacy": {
         render: function () {
-            return m(Layout, {isPublic: true, title: "Privacy"} , m(Privacy))
+            return m(Layout, {isPublic: true, title: "Privacy", header: "Privacy"} , m(Privacy))
         }
     }
 })

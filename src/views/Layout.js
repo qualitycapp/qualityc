@@ -6,7 +6,9 @@ var Login = require("./partials/Login")
 module.exports = {
     oninit: User.login,
     view: function (vnode) {
-        document.title = (vnode.attrs.title ? vnode.attrs.title + " - " : "") + "qualityc.app"
+        var canView = vnode.attrs.isPublic || User.isAuthenticated()
+        document.title = (vnode.attrs.title && canView ? vnode.attrs.title + " - " : "") + "qualityc.app"
+
         return [
             User.isConsentGiven() ? "" : m("article",
                 m("aside",
@@ -20,9 +22,7 @@ module.exports = {
                                 User.giveConsent()
                             }
                         },
-                            m("span", { "aria-hidden": "true" },
-                                "Accept"
-                            )
+                            m("span", { "aria-hidden": "true" }, "Accept")
                         )
                     )
                 )
@@ -31,12 +31,10 @@ module.exports = {
                 m("nav",
                     [
                         m(m.route.Link, { "href": "/" }, m("img", { "src": "/img/logo.png", "alt": "qualityc.app" })),
-                        vnode.attrs.title ? m("h1", vnode.attrs.title) : "",
                         m("ul",
                             User.isAuthenticated() ? [
                                 m("li",
                                     [
-
                                         m("a", { "href": "#" }, User.getLogin()),
                                         m("ul",
                                             [m("li",
@@ -45,9 +43,7 @@ module.exports = {
                                                         e.preventDefault()
                                                         User.logout()
                                                     }
-                                                },
-                                                    "Sign out"
-                                                ))
+                                                }, "Sign out"))
                                             ]
                                         )
                                     ]
@@ -59,11 +55,9 @@ module.exports = {
                         )
                     ]
                 ),
-                vnode.attrs.header ? m("h1", vnode.attrs.header) : "",
+                vnode.attrs.header && canView ? m("h1", vnode.attrs.header) : ""
             ), //header
-            m("main",
-                (vnode.attrs.isPublic || User.isAuthenticated()) ? vnode.children : m(Login)
-            ),
+            m("main", canView ? vnode.children : m(Login)),
             m("footer", [
                 m("hr"),
                 m("p",

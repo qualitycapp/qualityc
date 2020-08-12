@@ -28,7 +28,14 @@ module.exports = {
                                 "/repo/" + Repo.current.owner + "/" + Repo.current.repo + "/" +
                                 (Repo.current.path.includes("/") ? Repo.current.path.substring(0, Repo.current.path.lastIndexOf("/")) : "") : "/"
                     },
-                        m("span", { "title": "Go to parent" }, m.trust(".&#8202;."))
+                    [
+                        m("span", { "title": "Go to parent" }, m.trust(".&#8202;.")),
+                        m("img", {
+                            src: "/svg/feather/corner-left-up.svg",
+                            title: "Go to parent",
+                            style: { float: "left", "margin-right": "10px" }
+                        }),
+                    ]
                     )),
                     Repo.contents.length > 0 ? Repo.contents.sort(function (a, b) {
                         return a.type.localeCompare(b.type)
