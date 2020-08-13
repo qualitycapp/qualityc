@@ -28,7 +28,7 @@ module.exports = {
                 )
             ),
             m("header",
-                m("nav",
+                canView ? m("nav",
                     [
                         m(m.route.Link, { "href": "/" }, m("img", { "src": "/img/logo.png", "alt": "qualityc.app" })),
                         m("ul",
@@ -49,12 +49,11 @@ module.exports = {
                                     ]
                                 )
                             ] : [
-                                    m(m.route.Link, { "href": "/about" }, "About"),
                                     m("li", m(m.route.Link, { "href": "/" }, "Sign in"))
                                 ]
                         )
                     ]
-                ),
+                ) : "",
                 vnode.attrs.header && canView ? m("h1", vnode.attrs.header) : ""
             ), //header
             m("main", canView ? vnode.children : m(Login)),

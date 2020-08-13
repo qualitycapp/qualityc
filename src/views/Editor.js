@@ -7,20 +7,27 @@ module.exports = {
     oncreate: function (vnode) {
         editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
-            viewportMargin: Infinity
+            viewportMargin: Infinity,
+            theme: (isDarkMode ? "blackboard" : "default")
         })
     },
     onremove: function () {
         editor.toTextArea()
     },
     onupdate: function () {
-        editor.setOption("theme", (isDarkMode ? "blackboard" : "default"))
         editor.getDoc().setValue(File.content.content)
     },
     oninit: function (vnode) {
         File.load(vnode.attrs.owner, vnode.attrs.name, vnode.attrs.path)
-        if (localStorage.getItem('darkMode')) {
-            isDarkMode = true
+
+        var darkMode = localStorage.getItem('darkMode')
+        if (darkMode) {
+            isDarkMode = darkMode === "on"
+        } else {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                isDarkMode = true
+                localStorage.setItem("darkMode", "on")
+            }
         }
     },
     view: function () {
@@ -32,7 +39,7 @@ module.exports = {
                     isDarkMode = !isDarkMode
                     editor.setOption("theme", (isDarkMode ? "blackboard" : "default"))
                     if (isDarkMode) localStorage.setItem("darkMode", "on")
-                    else localStorage.removeItem("darkMode")
+                    else localStorage.setItem("darkMode", "off")
                 }
             }, isDarkMode ?
                 m("i", m("img", { src: "/svg/feather/sun.svg" })) :
