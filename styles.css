@@ -10,6 +10,27 @@
     -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+:root {
+  --color-ins: #b3ffb3;
+  --color-del: #ffbdbd;
+}
+@media (prefers-color-scheme: light) {
+pre code del{
+  background-color: var(--color-del);
+}
+pre code ins{
+  background-color: var(--color-ins);
+}
+}
+@media (prefers-color-scheme: dark) {
+  pre code del{
+    color: var(--color-del)
+  }
+  pre code ins{
+    color: var(--color-ins)
+  }
+}
+
 /* loader */
 .lds-ellipsis {
   display: inline-block;
