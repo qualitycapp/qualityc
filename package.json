@@ -1,14 +1,14 @@
 {
   "name": "qualityc-app",
   "version": "1.0.0",
+  "private": true,
   "description": "Qualityc.app is a test editor for GitHub, designed for software testing.",
-  "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm:watch\" \"npm:serve\"",
-    "watch": "webpack src/index.js --output bin/app.js -d --watch",
-    "build": "webpack src/index.js --output bin/app.js -p",
+    "watch": "webpack -d --watch",
+    "build": "webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "npx http-server"
+    "serve": "webpack-dev-server --open"
   },
   "keywords": [],
   "author": "Olcay Bayram",
@@ -19,8 +19,11 @@
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
-    "http-server": "^0.12.3",
+    "css-loader": "^4.2.1",
+    "mini-css-extract-plugin": "^0.10.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   }
 }

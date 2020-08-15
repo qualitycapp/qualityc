@@ -2,6 +2,8 @@
 var m = require("mithril")
 var User = require("../models/User")
 var Login = require("./partials/Login")
+require("../../styles.css")
+require("../../lib/mvp.css/mvp.css")
 
 module.exports = {
     oninit: User.login,
