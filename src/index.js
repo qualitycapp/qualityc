@@ -7,6 +7,7 @@ var Layout = require("./views/Layout")
 var About = require("./views/About")
 var Privacy = require("./views/Privacy")
 var Editor = require("./views/Editor")
+var Report = require("./views/Report")
 
 m.route(document.body, "/", {
     "/": {
@@ -28,6 +29,11 @@ m.route(document.body, "/", {
     "/edit/:owner/:name/:path...": {
         render: function (vnode) {
             return m(Layout, { title: vnode.attrs.name, header: vnode.attrs.owner + "/" + vnode.attrs.name + "/" + vnode.attrs.path } , m(Editor, vnode.attrs))
+        }
+    },
+    "/report/:owner/:name/:sha": {
+        render: function (vnode) {
+            return m(Layout, { title: vnode.attrs.name, header: vnode.attrs.owner + "/" + vnode.attrs.name } , m(Report, vnode.attrs))
         }
     },
     "/about": {
