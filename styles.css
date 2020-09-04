@@ -26,6 +26,28 @@
   }
 }
 
+nav {
+  margin-bottom: 0 !important;
+}
+
+nav ul li ul {
+  left: -72px !important;
+}
+
+header h3 {
+  word-wrap: break-word;
+}
+
+li a {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+aside a {
+  width: 235px;
+}
+
 /* loader */
 .lds-ellipsis {
   display: inline-block;

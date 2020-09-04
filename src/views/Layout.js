@@ -32,12 +32,17 @@ module.exports = {
             m("header",
                 canView ? m("nav",
                     [
-                        m(m.route.Link, { "href": "/" }, m("img", { "src": "/img/logo.png", "alt": "qualityc.app" })),
+                        m(m.route.Link, { href: "/?source=nav" }, m("img", { "src": "/img/logo.png", "alt": "qualityc.app" })),
+                        m("p", vnode.attrs.title),
                         m("ul",
                             User.isAuthenticated() ? [
                                 m("li",
                                     [
-                                        m("a", { "href": "#" }, User.getLogin()),
+                                        m("a", {
+                                            href: "#", onclick: function (e) {
+                                                e.preventDefault()
+                                            }
+                                        }, User.getLogin()),
                                         m("ul",
                                             [m("li",
                                                 m("a", {
@@ -56,7 +61,7 @@ module.exports = {
                         )
                     ]
                 ) : "",
-                vnode.attrs.header && canView ? m("h1", vnode.attrs.header) : ""
+                vnode.attrs.header && canView ? m("h3", vnode.attrs.header) : ""
             ), //header
             m("main", canView ? vnode.children : m(Login)),
             m("footer", [
@@ -65,16 +70,20 @@ module.exports = {
                     m("small",
                         [
                             m.trust("&copy;"),
-                            " 2020",
-                            m.trust(" &middot; "),
-                            m("a", { "href": "/?source=footer" }, "qualityc.app"),
-                            m.trust(" &middot; "),
-                            "Made by ",
-                            m("a", { "href": "https://olcay.dev" }, "olcay.dev"),
+                            " 2020 ",
+                            m(m.route.Link, { "href": "/?source=footer" }, "qualityc.app"),
                             m.trust(" &middot; "),
                             m(m.route.Link, { "href": "/privacy" }, "Privacy"),
                             m.trust(" &middot; "),
                             m(m.route.Link, { "href": "/about" }, "About")
+                        ]
+                    )
+                ),
+                m("p",
+                    m("small",
+                        [
+                            "Made by ",
+                            m("a", { "href": "https://olcay.dev" }, "olcay.dev")
                         ]
                     )
                 )
